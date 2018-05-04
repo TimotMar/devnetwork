@@ -29,7 +29,7 @@ function listPosts()
     $postManager = new \Devnetwork\Blog\Model\PostManager();
     $posts = $postManager->getPosts();
 
-    require('views/listPostsView.php');
+    require('views/listposts.view.php');
 }
 
 function accueil()
@@ -102,7 +102,7 @@ function post()
     $post = $postManager->getPost($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
 
-    require('views/postView.php');
+    require('views/post.view.php');
 }
 
 function profile()
@@ -119,7 +119,7 @@ function modifier()
 
     $post = $postManager->getPost($_GET['id']);
 
-    require('views/modifier.php');
+    require('views/modifier.view.php');
 }
 
 function delete()
@@ -127,7 +127,7 @@ function delete()
     $postManager = new \Devnetwork\Blog\Model\PostManager();
     $posts = $postManager->getPosts();
 
-    require('views/listPostsView.php');
+    require('views/listposts.view.php');
 }
 
 function change()

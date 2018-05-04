@@ -64,9 +64,11 @@ class UserManager extends Manager
         }
         if (is_already_in_use('pseudo', $pseudo, 'users')) {//verify unicity of pseudo
             $errors[] = "Pseudo déjà utilisé";
+            set_flash("Pseudo déjà utilisé", "danger");
         }
         if (is_already_in_use('email', $email, 'users')) {
             $errors[] = "Adresse email déjà utilisée";
+            set_flash("Adresse email déjà utilisée", "danger");
         }
         if (count($errors) == 0) {
             //send email activation
@@ -103,7 +105,7 @@ try {
         $db = $this->dbConnect();
         extract($_POST); //access to all the variables into the post
 
-            $q = $db->prepare("SELECT id, pseudo, email FROM users 
+            $q = $db->prepare("SELECT id, pseudo, email, admin FROM users 
                                         WHERE (pseudo = :identifiant OR email = :identifiant) 
                                         AND password = :password AND active = '1'");
             $q->execute([
@@ -119,6 +121,7 @@ try {
                 $_SESSION['user_id'] = $user->id; //storage of the id
                 $_SESSION['pseudo'] = $user->pseudo;
                 $_SESSION['email'] = $user->email;
+                $_SESSION['admin'] = $user->admin;
                 //we keep this as long as the session is active. user connected only if id and pseudo exist.
                 redirect_intent_or('index.php?action=profile&id='.$user->id);
         } else {

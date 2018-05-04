@@ -1,3 +1,7 @@
+<?php use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '/var/www/devnetwork/vendor/autoload.php';
+?>
 <?php $title = "Page de Profil"; ?>
 <?php include('partials/_header.php'); ?>
 <!-- 
@@ -50,10 +54,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                              <div class="col-md-12">
-<!--Button trigger for modal to send an email--> 
-<button type="button" class="btn btn-primary" profile-toggle="modal" profile-target="#myModal">Me contacter</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Me contacter</button>
  
 <!--Begin Modal Window--> 
 <div class="modal fade left" id="myModal"> 
@@ -61,13 +62,13 @@
 <div class="modal-content"> 
 <div class="modal-header"> 
 <h3 class="pull-left no-margin">Formulaire de contact</h3>
-<button type="button" class="close" profile-dismiss="modal" title="Close"><span class="glyphicon glyphicon-remove"></span>
+<button type="button" class="close" data-dismiss="modal" title="Close"><span class="glyphicon glyphicon-remove"></span>
 </button> 
 </div> 
 <div class="modal-body">
 
 <!--NOTE: you will need to provide your own form processing script--> 
-<form class="form-horizontal" role="form" method="post" action="form_to_email_script.php "> 
+<form class="form-horizontal" role="form" method="post"> 
 <span class="required">* Required</span> 
 <div class="form-group"> 
 <label for="nom" class="col-sm-3 control-label">
@@ -95,10 +96,34 @@
 <button type="submit" id="envoi" name="envoi" class="btn-lg btn-primary">Envoyer</button> 
 </div> 
 </div> 
+<?php 
+if(isset($_POST['envoi'])) {
+    $mail = new PHPMailer(true);  
+try {
+    $mail->SMTPDebug = 2;
+    $mail->isSMTP();    
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'tim.marissal@gmail.com';
+    $mail->Password = '174103392';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+    $mail->setFrom($_POST['mail']);
+    $mail->addAddress($profile['email'], $_POST['nom']);
+    $mail->isHTML(true);
+    $mail->Subject = 'Un user vous a contacté';
+    $mail->Body    = $_POST['message'];
+    $mail->send();
+} catch (Exception $e) {
+    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+}
+}
+?>
+
 <!--end Form--></form>
 </div>
 <div class="modal-footer"> 
-<button class="btn-sm close" type="button" profile-dismiss="modal">Close</button> 
+<button class="btn-sm close" type="button" data-dismiss="modal">Close</button> 
 </div> 
 </div> 
 </div> 
