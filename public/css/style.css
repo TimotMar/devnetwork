@@ -1,0 +1,41 @@
+h1, h3
+{
+    text-align:center;
+}
+h3
+{
+    background-color:#0000ff;
+    color:white;
+    font-size:0.9em;
+    margin-bottom:0px;
+    border-radius: 10px;
+}
+.news p
+{
+    background-color:#b3d1ff;
+    margin-top:0px;
+     border-radius: 10px;
+}
+.news
+{
+    width:70%;
+    margin:auto;
+}
+
+a
+{
+    text-decoration: none;
+    color: blue;
+}
+
+.champ {
+    width: 50%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #b3d1ff;
+    resize: none;
+    margin:auto;
+     border-radius: 25px;
+}
