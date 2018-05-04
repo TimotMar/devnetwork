@@ -104,9 +104,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="bio">Biographie<span class="text-danger">*</span></label>
-                                <textarea name="bio" id="bio" cols="36" rows="18" required="required" class="form-control"
-                                value="<?= $profile['bio'] ?>"></textarea>
+                                <label for="bio">Biographie</label>
+                                <textarea name="bio" id="bio" cols="36" rows="18" class="form-control"
+                                value="<?= $profile['bio']?>"></textarea>
                             </div>
                         </div>
                     </div>

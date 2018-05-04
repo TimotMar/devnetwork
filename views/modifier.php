@@ -16,8 +16,8 @@
                value= "<?= htmlspecialchars($post['title']) ?>"/>
     </div>
     <div>
-        <label for="pseudonyme">Pseudonyme</label><br />
-        <input type="text" id="pseudonyme" name="pseudonyme" value="<?= htmlspecialchars($post['pseudonyme']) ?>" readonly/>
+        <label for="pseudo">Pseudo</label><br />
+        <input type="text" id="pseudo" name="pseudo" value="<?= htmlspecialchars($post['pseudo']) ?>" readonly/>
     </div>
     <div>
         <label for="chapo">Chapô</label><br />

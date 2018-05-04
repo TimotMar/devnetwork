@@ -8,9 +8,13 @@
 namespace Devnetwork\Blog\Model;
 
 require_once("Manager.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '/var/www/devnetwork/vendor/autoload.php';
 
 class UserManager extends Manager
 {
+
     public function modifierUser($id, $name, $city, $country, $sex, $twitter, $github, $facebook, $available_for_hiring, $bio)
     {
         $db = $this->dbConnect();
@@ -38,10 +42,9 @@ class UserManager extends Manager
         return $req;
     }
 
-    public function registerUser($name, $pseudo, $email, $password)
-    {
+    public function registerUser($name, $pseudo, $email, $password, $password_confirm, $country, $city)
+    { 
         $db = $this->dbConnect();
-         if (not_empty(['name', 'pseudo', 'email', 'password', 'password_confirm'])) {
         $errors = []; // array with the errors
 
         extract($_POST); //access to $postname with name...
@@ -67,43 +70,34 @@ class UserManager extends Manager
         }
         if (count($errors) == 0) {
             //send email activation
-            $to = $email;
-            $subject = WEBSITE_NAME. " - ACTIVATION DE COMPTE";
-            $password = sha1($password);
-            $token = sha1($pseudo.$email.$password);
-
-            ob_start();
-            require('views/templates/emails/activation.tmpl.php');
-            $content = ob_get_clean();
-            //everything will be settled in temporary memory but not not display
-
-            $headers = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-            mail($to, $subject, $content, $headers);
-
+$password=sha1($password);
+$token = sha1($pseudo.$email.$password);
+$mail = new PHPMailer(true);                           
+try {
+    $mail->SMTPDebug = 2;
+    $mail->isSMTP();    
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'tim.marissal@gmail.com';
+    $mail->Password = '174103392';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+    $mail->setFrom('tim.marissal@gmail.com', 'Tim-dev.com');
+    $mail->addAddress($email, $name);
+    $mail->isHTML(true);
+    $mail->Subject = 'Validation de l\'incription';
+    $mail->Body    = "Veuillez cliquer sur ce lien pour valider l'incription : <a href='http://devnetwork.tim-dev.fr/index.php?action=activation&amp;p=$pseudo&amp;token=$token'>Lien d'activation</a>";
+    $mail->send();
+} catch (Exception $e) {
+    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+}
             //inform user to check mailbox
             set_flash("Mail d'activation envoyé", "danger");
-
-            $q = $db->prepare('INSERT INTO users (name, pseudo, email, password) 
-VALUES (:name, :pseudo, :email, :password)');
-            $datauser = $q ->execute([
-                'name' => $name,
-                'pseudo' => $pseudo,
-                'email' => $email,
-                'password' => $password
-
-            ]);
-            redirect('../index.php');
-            exit();
-        } else {
-            save_input_data(); //save datas but need a function to recover them
-        }
-    } else {
-        $errors[] = "Veuillez remplir tous les champs";
-        save_input_data();
-    }
-} 
+            $datauser = $db->prepare('INSERT INTO users(name, pseudo, email, password, country, city) VALUES (?, ?, ?, ?, ?, ?)');
+            $datauser ->execute(array($name,$pseudo,$email,$password,$country,$city));
+            return $datauser;
+        } 
+    } 
 
     public function loginUser($identifiant, $password){
         $db = $this->dbConnect();
@@ -132,4 +126,27 @@ VALUES (:name, :pseudo, :email, :password)');
                 save_input_data();
         }
     }
+
+    public function activationUser(){
+        $db = $this->dbConnect();
+        $pseudo = $_GET['p'];
+        $token = $_GET['token'];
+
+        $q = $db->prepare('SELECT email, password FROM users WHERE pseudo = ?');
+        $q->execute([$pseudo]);
+
+        $data = $q->fetch(\PDO::FETCH_OBJ); // recovery of the informations of the request as an object
+
+        $token_verif = sha1($pseudo.$data->email.$data->password);
+        if ($token == $token_verif) {
+        	set_flash('Compte activé avec succès!', 'danger');
+            $q = $db->prepare("UPDATE users SET active = '1' WHERE pseudo = ?");
+            $q->execute([$pseudo]);
+			return $q;
+            } else {
+            set_flash('Paramètres invalides', 'danger');
+            redirect('index.php');
+            }
+
+        }
 }

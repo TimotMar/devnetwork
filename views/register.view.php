@@ -51,6 +51,16 @@
                 <input type="password" class="form-control" id="password_confirm" name="password_confirm"
                        required="required" data-parsley-equalto="#password"/>
             </div>
+            <div class="form-group">
+                <label class="control-label" for="country">Pays :</label>
+                <input type="text" class="form-control" id="country" name="country"
+                       required="required"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="city">Ville :</label>
+                <input type="text" class="form-control" id="city" name="city"
+                       required="required"/>
+            </div>
 
             <input type="submit" class="btn btn-primary" value="Inscription" name="register">
 

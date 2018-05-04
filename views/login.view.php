@@ -30,7 +30,6 @@
                            required="required" />
                 </div>
 
-
                 <input type="submit" class="btn btn-primary" value="Connexion" name="login">
 
 

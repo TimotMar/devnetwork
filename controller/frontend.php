@@ -10,6 +10,20 @@ require_once('model/CommentManager.php');
 require_once('model/UserManager.php');
 
 //all functions management
+function addComment($postId, $author, $comment, $post_mail, $post_pseudo)
+{
+    $commentManager = new \Devnetwork\Blog\Model\CommentManager();
+
+    $affectedLines = $commentManager->postComment($postId, $author, $comment, $post_mail, $post_pseudo);
+
+    if ($affectedLines === false) {
+        throw new Exception('Impossible d\'ajouter le commentaire !');
+    }
+    else {
+        ?><script><?php echo("Location: index.post.php?action=post&id=' . $postId");?></script><?php
+    }
+}
+
 function listPosts()
 {
     $postManager = new \Devnetwork\Blog\Model\PostManager();
@@ -39,12 +53,30 @@ function inscription()
     require('views/register.view.php');
 }
 
-function register()
+function register($name, $pseudo, $email, $password, $password_confirm, $country, $city)
 {
     $userManager = new \Devnetwork\Blog\Model\UserManager();
-    $datauser = $userManager->registerUser($_POST['name'], $_POST['pseudo'], $_POST['email'], $_POST['password']);
+    $datauser = $userManager->registerUser($_POST['name'], $_POST['pseudo'], $_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['country'], $_POST['city']);
 
-    require('views/register.view.php');
+    if ($datauser === false) {
+        throw new Exception('Impossible de vous inscrire !');
+    }
+    else {
+        header('Location: index.php');
+    }
+}
+
+function activation()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+    $q = $userManager->activationUser($_GET['p'], $_GET['token']);
+
+    if ($q === false) {
+        throw new Exception('Impossible d\'activer le compte !');
+    }
+    else {
+        header('Location: index.php?action=login');
+    }
 }
 
 function logintheUser()
@@ -61,7 +93,6 @@ function login()
 
     require('views/login.view.php');
 }
-
 
 function post()
 {
@@ -108,25 +139,11 @@ function change()
     require('views/edit_user.view.php');
 }
 
-function addComment($postId, $author, $comment)
-{
-    $commentManager = new \Devnetwork\Blog\Model\CommentManager();
-
-    $affectedLines = $commentManager->postComment($postId, $author, $comment);
-
-    if ($affectedLines === false) {
-        throw new Exception('Impossible d\'ajouter le commentaire !');
-    }
-    else {
-        header('Location: index.post.php?action=post&id=' . $postId);
-    }
-}
-
-function addPost($title, $content, $pseudonyme, $chapo)
+function addPost($title, $content, $chapo, $pseudo, $post_mail)
 {
     $postManager = new \Devnetwork\Blog\Model\PostManager();
 
-    $affectedPosts = $postManager->postPost($title, $content, $pseudonyme, $chapo);
+    $affectedPosts = $postManager->postPost($title, $content, $chapo, $pseudo, $post_mail);
 
     if ($affectedPosts === false) {
         throw new Exception('Impossible d\'ajouter l\'article !');
@@ -136,11 +153,11 @@ function addPost($title, $content, $pseudonyme, $chapo)
     }
 }
 
-function changePost($id, $title, $content, $pseudonyme, $chapo)
+function changePost($id, $title, $content, $chapo, $pseudo)
 {
     $postManager = new \Devnetwork\Blog\Model\PostManager();
 
-    $affectedPosts = $postManager->modifierPost($id, $title, $content, $pseudonyme, $chapo);
+    $affectedPosts = $postManager->modifierPost($id, $title, $content, $chapo, $pseudo);
 
     if ($affectedPosts === false) {
         throw new Exception('Impossible de changer l\'article !');
@@ -171,7 +188,7 @@ function changeUser($id, $name, $city, $country, $sex, $twitter, $github, $faceb
     if ($affectedUser === false) {
         throw new Exception('Impossible de changer le user !');
     } else {
-        header('Location: index.post.php?action=profile&id=' . $id);
+        header('Location: index.php?action=profile&id=' . $id);
     }
 }
 
@@ -183,6 +200,19 @@ function deleteComment($id)
 
     if ($affectedComments === false) {
         throw new Exception('Impossible de supprimer le commentaire !');
+    } else {
+        header('Location: index.post.php');
+    }
+}
+
+function validateComment($id)
+{
+    $commentManager = new \Devnetwork\Blog\Model\CommentManager();
+
+    $affectedComments = $commentManager->validateComment($id);
+
+    if ($affectedComments === false) {
+        throw new Exception('Impossible de valider le commentaire !');
     } else {
         header('Location: index.post.php');
     }

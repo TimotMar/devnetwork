@@ -23,9 +23,9 @@ try {
         elseif ($_GET['action'] == 'inscription') {
                 inscription();
                     }
-elseif ($_GET['action'] == 'register') {
-            if (!empty($_POST['name']) && !empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password'])){
-                register($_POST['name'], $_POST['pseudo'], $_POST['email'], $_POST['password']);
+			elseif ($_GET['action'] == 'register') {
+            if (!empty($_POST['name']) && !empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password_confirm']) && !empty($_POST['country']) && !empty($_POST['city'])){
+                register($_POST['name'], $_POST['pseudo'], $_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['city'], $_POST['country']);
             }
         }
         elseif ($_GET['action'] == 'change') {
@@ -36,13 +36,20 @@ elseif ($_GET['action'] == 'register') {
             }
         } 
         elseif ($_GET['action'] == 'changeUser') {
-            if (!empty($_POST['name']) && !empty($_POST['city']) && !empty($_POST['country']) && !empty($_POST['bio'])){
+            if (!empty($_POST['name']) && !empty($_POST['city']) && !empty($_POST['country'])){
                 changeUser($_GET['id'], $_POST['name'], $_POST['city'], $_POST['country'], $_POST['sex'], $_POST['twitter'], $_POST['github'], $_POST['facebook'], $_POST['available_for_hiring'], $_POST['bio']);
             }
             else {
                 throw new Exception('Tous les champs ne sont pas remplis !');
             }
-        }  elseif ($_GET['action'] == 'profile') {
+        } elseif ($_GET['action'] == 'activation') {
+            if(!empty($_GET['p']) && is_already_in_use('pseudo', $_GET['p'], 'users') && !empty($_GET['token'])) //if get p exists and is in the DB : we continue
+            {
+                activation();
+            } else {
+            redirect('index.php');
+            }
+        } elseif ($_GET['action'] == 'profile') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 profile();
             } else {

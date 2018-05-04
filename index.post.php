@@ -11,7 +11,6 @@ require("views/index.post.view.php");
 require('controller/frontend.php');
 //includes of all the exceptions of the post system
 
-
 try {
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 'listPosts') {
@@ -25,16 +24,14 @@ try {
         } elseif ($_GET['action'] == 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-                    addComment($_GET['id'], $_POST['author'], $_POST['comment']);
-                } else {
-                    throw new Exception('Tous les champs ne sont pas remplis !');
-                }
+                    addComment($_GET['id'], $_POST['author'], $_POST['comment'], $_POST['post_mail'], $_POST['post_pseudo']);
+                } 
             } else {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         } elseif ($_GET['action'] == 'addPost') {
-            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['pseudonyme']) && !empty($_POST['chapo'])) {
-                    addPost($_POST['title'], $_POST['content'], $_POST['pseudonyme'], $_POST['chapo']);
+            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['chapo']) && !empty($_POST['pseudo'])) {
+                    addPost($_POST['title'], $_POST['content'], $_POST['chapo'], $_POST['pseudo'], $_POST['post_mail']);
             } else {
                     throw new Exception('Tous les champs ne sont pas remplis !');
             }
@@ -45,9 +42,9 @@ try {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         } elseif ($_GET['action'] == 'changePost') {
-            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['pseudonyme']) && !empty($_POST['chapo'])) {
-                    changePost($_GET['id'], $_POST['title'], $_POST['content'], $_POST['pseudonyme'], $_POST['chapo']);
-                                    set_flash("Post modifié avec succés", "success");
+            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['chapo']) && !empty($_POST['pseudo'])) {
+                    changePost($_GET['id'], $_POST['title'], $_POST['content'], $_POST['chapo'], $_POST['pseudo']);
+                    set_flash("Post modifié avec succés", "success");
             } else {
                     throw new Exception('Tous les champs ne sont pas remplis !');
             }
@@ -56,6 +53,8 @@ try {
         } elseif ($_GET['action'] == 'deleteComment') {
                 deleteComment($_GET['id']);
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
+        } elseif ($_GET['action'] == 'validateComment') {
+                validateComment($_GET['id']);
         }
     } else {
         listPosts();
