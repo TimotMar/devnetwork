@@ -7,6 +7,7 @@
 // classes loading
 require_once('model/PostManager.php');
 require_once('model/CommentManager.php');
+require_once('model/UserManager.php');
 
 //all functions management
 function listPosts()
@@ -17,6 +18,51 @@ function listPosts()
     require('views/listPostsView.php');
 }
 
+function accueil()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+    require('views/index.view.php');
+}
+
+function liste()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+    $users = $userManager->getListe();
+
+    require('views/list_users.view.php');
+}
+
+function inscription()
+{
+  $userManager = new \Devnetwork\Blog\Model\UserManager();
+
+    require('views/register.view.php');
+}
+
+function register()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+    $datauser = $userManager->registerUser($_POST['name'], $_POST['pseudo'], $_POST['email'], $_POST['password']);
+
+    require('views/register.view.php');
+}
+
+function logintheUser()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+    $userHasBeenFound = $userManager->loginUser($_POST['identifiant'], $_POST['password']);
+
+    require('views/login.view.php');
+}
+
+function login()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+
+    require('views/login.view.php');
+}
+
+
 function post()
 {
     $postManager = new \Devnetwork\Blog\Model\PostManager();
@@ -26,6 +72,14 @@ function post()
     $comments = $commentManager->getComments($_GET['id']);
 
     require('views/postView.php');
+}
+
+function profile()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+    $profile = $userManager->getProfile($_GET['id']);
+
+    require('views/profile.view.php');
 }
 
 function modifier()
@@ -45,7 +99,14 @@ function delete()
     require('views/listPostsView.php');
 }
 
+function change()
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
 
+    $profile = $userManager->getProfile($_GET['id']);
+
+    require('views/edit_user.view.php');
+}
 
 function addComment($postId, $author, $comment)
 {
@@ -61,11 +122,11 @@ function addComment($postId, $author, $comment)
     }
 }
 
-function addPost($title, $content, $pseudonyme)
+function addPost($title, $content, $pseudonyme, $chapo)
 {
     $postManager = new \Devnetwork\Blog\Model\PostManager();
 
-    $affectedPosts = $postManager->postPost($title, $content, $pseudonyme);
+    $affectedPosts = $postManager->postPost($title, $content, $pseudonyme, $chapo);
 
     if ($affectedPosts === false) {
         throw new Exception('Impossible d\'ajouter l\'article !');
@@ -75,11 +136,11 @@ function addPost($title, $content, $pseudonyme)
     }
 }
 
-function changePost($id, $title, $content, $pseudonyme)
+function changePost($id, $title, $content, $pseudonyme, $chapo)
 {
     $postManager = new \Devnetwork\Blog\Model\PostManager();
 
-    $affectedPosts = $postManager->modifierPost($id, $title, $content, $pseudonyme);
+    $affectedPosts = $postManager->modifierPost($id, $title, $content, $pseudonyme, $chapo);
 
     if ($affectedPosts === false) {
         throw new Exception('Impossible de changer l\'article !');
@@ -96,6 +157,32 @@ function deletePost($id)
 
     if ($affectedPosts === false) {
         throw new Exception('Impossible de supprimer l\'article !');
+    } else {
+        header('Location: index.post.php');
+    }
+}
+
+function changeUser($id, $name, $city, $country, $sex, $twitter, $github, $facebook, $available_for_hiring, $bio)
+{
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
+
+    $affectedUser = $userManager->modifierUser($id, $name, $city, $country, $sex, $twitter, $github, $facebook, $available_for_hiring, $bio);//présent dans le Usermanager
+
+    if ($affectedUser === false) {
+        throw new Exception('Impossible de changer le user !');
+    } else {
+        header('Location: index.post.php?action=profile&id=' . $id);
+    }
+}
+
+function deleteComment($id)
+{
+    $commentManager = new \Devnetwork\Blog\Model\CommentManager();
+
+    $affectedComments = $commentManager->deleteComment($id);
+
+    if ($affectedComments === false) {
+        throw new Exception('Impossible de supprimer le commentaire !');
     } else {
         header('Location: index.post.php');
     }

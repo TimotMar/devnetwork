@@ -11,9 +11,9 @@
         <h1 class="lead"> Devenez membre dès à présent !</h1>
 
         <?php //error function
-        include('../views/partials/_errors.php')
+        include('partials/_errors.php')
         ?>
-        <form data-parsley-validate method="post" class="well col-md-6">
+        <form data-parsley-validate action="../index.php?action=register" method="post" class="well col-md-6">
             <!-- Name field -->
             <div class="form-group">
                 <label class="control-label" for="name">Nom:</label>

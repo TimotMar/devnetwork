@@ -9,7 +9,6 @@ include('controller/includes/constants.php');
 require("controller/includes/functions.php");
 require("views/index.post.view.php");
 require('controller/frontend.php');
-//index of the post functionnality
 //includes of all the exceptions of the post system
 
 
@@ -34,8 +33,8 @@ try {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         } elseif ($_GET['action'] == 'addPost') {
-            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['pseudonyme'])) {
-                    addPost($_POST['title'], $_POST['content'], $_POST['pseudonyme']);
+            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['pseudonyme']) && !empty($_POST['chapo'])) {
+                    addPost($_POST['title'], $_POST['content'], $_POST['pseudonyme'], $_POST['chapo']);
             } else {
                     throw new Exception('Tous les champs ne sont pas remplis !');
             }
@@ -46,13 +45,17 @@ try {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
         } elseif ($_GET['action'] == 'changePost') {
-            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['pseudonyme'])) {
-                    changePost($_GET['id'], $_POST['title'], $_POST['content'], $_POST['pseudonyme']);
+            if (!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['pseudonyme']) && !empty($_POST['chapo'])) {
+                    changePost($_GET['id'], $_POST['title'], $_POST['content'], $_POST['pseudonyme'], $_POST['chapo']);
+                                    set_flash("Post modifié avec succés", "success");
             } else {
                     throw new Exception('Tous les champs ne sont pas remplis !');
             }
         } elseif ($_GET['action'] == 'deletePost') {
                 deletePost($_GET['id']);
+        } elseif ($_GET['action'] == 'deleteComment') {
+                deleteComment($_GET['id']);
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     } else {
         listPosts();

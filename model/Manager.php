@@ -11,6 +11,10 @@ class Manager
 {
     protected function dbConnect()
     {
+        define('DB_HOST', 'localhost');
+        define('DB_NAME', 'boom');
+        define('DB_USERNAME', 'root');
+        define('DB_PASSWORD', 'TimPucelle:92');
         $db = new \PDO('mysql:host=localhost;dbname=boom', 'root', 'TimPucelle:92');
         return $db;
     }

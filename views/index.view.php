@@ -4,9 +4,7 @@
 *
 *
 -->
-<?php include('../controller/includes/constants.php'); ?>
-<?php include('partials/_header.php'); ?>
-
+<?php include('partials/_header.php');?>
 
 <div id="main-content">
     <main role="main" class="container">
@@ -20,7 +18,6 @@
 
     </main><!-- /.container -->
 </div>
-
 
 
 <?php include('partials/_footer.php');?>

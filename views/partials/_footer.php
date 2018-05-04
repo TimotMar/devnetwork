@@ -11,6 +11,5 @@
 <script>window.Parsley.setLocale('fr');</script>
 
 
-
 </body>
 </html>

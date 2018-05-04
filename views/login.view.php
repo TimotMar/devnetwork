@@ -13,7 +13,7 @@
             <?php
             include('partials/_errors.php')
             ?>
-            <form data-parsley-validate method="post" class="well col-md-6">
+            <form data-parsley-validate action="../index.php?action=logintheUser" method="post" class="well col-md-6">
                 <!-- identifiant field -->
                 <div class="form-group">
                     <label class="control-label" for="identifiant">Pseudo ou email:</label>

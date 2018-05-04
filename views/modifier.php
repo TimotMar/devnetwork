@@ -17,7 +17,11 @@
     </div>
     <div>
         <label for="pseudonyme">Pseudonyme</label><br />
-        <input type="text" id="pseudonyme" name="pseudonyme" value="<?= htmlspecialchars($post['pseudonyme']) ?>"/>
+        <input type="text" id="pseudonyme" name="pseudonyme" value="<?= htmlspecialchars($post['pseudonyme']) ?>" readonly/>
+    </div>
+    <div>
+        <label for="chapo">Chapô</label><br />
+        <input type="text" id="chapo" name="chapo" value="<?= htmlspecialchars($post['chapo']) ?>" />
     </div>
     <div>
         <label for="content">Blogpost</label><br />
@@ -26,8 +30,10 @@
     <div>
         <input type="submit" />
     </div>
+
 </form>
 </div>
+
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.php'); ?>

@@ -4,6 +4,7 @@
 *
 *
 **/
+
 if (!function_exists('e')) {
     function e($string)
     {
@@ -78,22 +79,6 @@ facebook, sex, available_for_hiring, bio FROM users WHERE id=?');
         return $data;
     }
 }
-//find_code_by_id
-if (!function_exists('find_code_by_id')) {
-    function find_code_by_id($id)
-    {
-        global $db;
-
-        $q = $db->prepare('SELECT code FROM codes WHERE id = ?');
-        $q->execute([$id]);
-
-        $data = $q->fetch(PDO::FETCH_OBJ);
-
-        $q->closeCursor();
-        return $data;
-    }
-}
-
 
 if (!function_exists('not_empty')) { //defined : existance of a constant, not of a function
     function not_empty($fields = [])
@@ -112,8 +97,7 @@ if (!function_exists('not_empty')) { //defined : existance of a constant, not of
 if (!function_exists('is_already_in_use')) {
     function is_already_in_use($field, $value, $table)
     {
-        global $db;
-
+        $db = new PDO('mysql:host=localhost;dbname=boom', 'root', 'TimPucelle:92');
         $q = $db->prepare("SELECT id FROM $table WHERE $field = ?"); // l
         $q->execute([$value]);
 
@@ -173,19 +157,3 @@ if (!function_exists('clear_input_data')) { // save firsts written datas
     }
 }
 // active state of our differents links
-if (!function_exists('set_active')) {
-    function set_active($file, $class = 'active')
-    {
-        $page = array_pop(explode('/', $_SERVER['SCRIPT_NAME']));
-        //array_pop recovers the last element of the array.
-        //explode is used for the decomposition with / attribute as delimitor
-        //so : each element between two / will be a line in the array
-        //the last of the array will be for exemple : test.php
-
-        if ($page == $file.'.php') {//beacause no .php in the path
-            return $class;
-        } else {
-            return "";
-        }
-    }
-}

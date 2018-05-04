@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../../public/assets/js/google-code-prettify/prettify.css"/>
     <link rel="stylesheet" href="../../public/assets/css/main.css"/>
     <!-- Custom styles for this template -->
-
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=ej2wev80ezbidzkh7q4d9ddl28v4ctqoc6zvmuww82zrroi6"></script> 
 </head>
 <body>
 

@@ -1,50 +1,50 @@
 <?php $title = "Page de Profil"; ?>
 <?php include('partials/_header.php'); ?>
 <!-- 
-*This file is used to recover of all the datas connected to the user and protection with the e() function using html
+*This file is used to recover of all the profiles connected to the profile and protection with the e() function using html
 *
     -->
-
 <!--  -->
+
     <div id="main-content">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Profil de <?= e($user->pseudo)?></h3>
+                            <h3 class="panel-title">Profil de <?= $profile['name']?></h3>
                         </div>
                         <div class="panel-body">
 
                             <div class="row">
                                 <div class="col-md-5">
-                                    <img src="<?= get_avatar_url($user->email, 100) ?>" alt="Image de profil de <?= e($user->pseudo)?>" class="img-circle">
+                                    <img src="<?= get_avatar_url($profile['email'], 100) ?>" alt="Image de profil de <?= $profile['name']?>" class="img-circle">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                <strong><?= e($user->pseudo) ?></strong><br>
-                                    <a href="mailto:<?= e($user->email) ?>"><?= e($user->email) ?></a><br/>
+                                <strong><?= $profile['pseudo'] ?></strong><br>
+                                    <a href="mailto:<?= $profile['email'] ?>"><?= $profile['email'] ?></a><br/>
                                     <?=
-                                    $user->city && $user->country ? '<i class="fa fa-location-arrow"></i>&nbsp;'.e($user->city).' - '.e($user->country) .'<br/>' : '';
-                                    ?><a href="https://www.google.com/maps?q=<?= e($user->city).' '.e($user->country)?>" target="_blank">Voir sur Google Maps</a>
+                                    $profile['city'] && $profile['country'] ? '<i class="fa fa-location-arrow"></i>&nbsp;'.$profile['city'].' - '.$profile['country'] .'<br/>' : '';
+                                    ?><a href="https://www.google.com/maps?q=<?= $profile['city'].' '.$profile['country']?>" target="_blank">Voir sur Google Maps</a>
                                 </div>
                                 <div class="col-md-6">
                                     <?=
-                                    $user->twitter ? '<i class="fa fa-twitter"></i>&nbsp;<a href="//twitter.com/'.e($user->twitter).'">@'.e($user->twitter).'</a><br/>' : '';
+                                    $profile['twitter'] ? '<i class="fa fa-twitter"></i>&nbsp;<a href="//twitter.com/'.$profile['twitter'].'">@'.$profile['twitter'].'</a><br/>' : '';
                                     ?>
                                     <?=
-                                    $user->github ? '<i class="fa fa-github"></i>&nbsp;<a href="//github.com/'.e($user->github).'">'.e($user->github).'</a><br/>' : '';
+                                    $profile['github'] ? '<i class="fa fa-github"></i>&nbsp;<a href="//github.com/'.$profile['github'].'">'.$profile['github'].'</a><br/>' : '';
                                     ?>
                                     <?=
-                                    $user->facebook ? '<i class="fa fa-facebook"></i>&nbsp;<a href="//facebook.com/'.e($user->facebook).'">'.e($user->facebook).'</a><br/>' : '';
+                                    $profile['facebook'] ? '<i class="fa fa-facebook"></i>&nbsp;<a href="//facebook.com/'.$profile['facebook'].'">'.$profile['facebook'].'</a><br/>' : '';
                                     ?>
                                     <?=
-                                    $user->sex == 'H' ? '<i class="fa fa-male"></i>' : '<i class="fa fa-female"></i>';
+                                    $profile['sex'] == 'H' ? '<i class="fa fa-male"></i>' : '<i class="fa fa-female"></i>';
                                     //tester égalité : ==
                                     ?>
                                     <?=
-                                    $user->available_for_hiring ? 'Disponible pour emploi' : 'Non disponible pour emploi';
+                                    $profile['available_for_hiring'] ? 'Disponible pour emploi' : 'Non disponible pour emploi';
                                     ?>
                                     <a href=".../file/invoice_dl_1510857088.pdf" target="_blank">Mon cv</a>
                                 </div>
@@ -53,7 +53,7 @@
                             <div class="row">
                               <div class="col-md-12">
 <!--Button trigger for modal to send an email--> 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Me contacter</button>
+<button type="button" class="btn btn-primary" profile-toggle="modal" profile-target="#myModal">Me contacter</button>
  
 <!--Begin Modal Window--> 
 <div class="modal fade left" id="myModal"> 
@@ -61,7 +61,7 @@
 <div class="modal-content"> 
 <div class="modal-header"> 
 <h3 class="pull-left no-margin">Formulaire de contact</h3>
-<button type="button" class="close" data-dismiss="modal" title="Close"><span class="glyphicon glyphicon-remove"></span>
+<button type="button" class="close" profile-dismiss="modal" title="Close"><span class="glyphicon glyphicon-remove"></span>
 </button> 
 </div> 
 <div class="modal-body">
@@ -98,7 +98,7 @@
 <!--end Form--></form>
 </div>
 <div class="modal-footer"> 
-<button class="btn-sm close" type="button" data-dismiss="modal">Close</button> 
+<button class="btn-sm close" type="button" profile-dismiss="modal">Close</button> 
 </div> 
 </div> 
 </div> 
@@ -107,10 +107,10 @@
 </div> 
                             <div class="row">
                                 <div class="col-md-12 well" style="margin-top:12px;">
-                                    <h5>Petite biographie de <?= e($user->name)?></h5>
+                                    <h5>Petite biographie de <?= $profile['name']?></h5>
                                     <p>
-                                        <?=//nl2br permet de récup les retours à la ligne faits par l'user
-                                        $user->bio ? nl2br(e($user->bio)) : "Aucune bio pour le moment";
+                                        <?=//nl2br permet de récup les retours à la ligne faits par l'profile
+                                        $profile['bio'] ? nl2br($profile['bio']) : "Aucune bio pour le moment";
                                         ?>
                                     </p>
                                 </div>
