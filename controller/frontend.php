@@ -18,8 +18,7 @@ function addComment($postId, $author, $comment, $post_mail, $post_pseudo)
 
     if ($affectedLines === false) {
         throw new Exception('Impossible d\'ajouter le commentaire !');
-    }
-    else {
+    } else {
         ?><script><?php echo("Location: index.post.php?action=post&id=' . $postId");?></script><?php
     }
 }
@@ -48,7 +47,7 @@ function liste()
 
 function inscription()
 {
-  $userManager = new \Devnetwork\Blog\Model\UserManager();
+    $userManager = new \Devnetwork\Blog\Model\UserManager();
 
     require('views/register.view.php');
 }
@@ -60,8 +59,7 @@ function register($name, $pseudo, $email, $password, $password_confirm, $country
 
     if ($datauser === false) {
         throw new Exception('Impossible de vous inscrire !');
-    }
-    else {
+    } else {
         header('Location: index.php');
     }
 }
@@ -73,8 +71,7 @@ function activation()
 
     if ($q === false) {
         throw new Exception('Impossible d\'activer le compte !');
-    }
-    else {
+    } else {
         header('Location: index.php?action=login');
     }
 }
@@ -147,8 +144,7 @@ function addPost($title, $content, $chapo, $pseudo, $post_mail)
 
     if ($affectedPosts === false) {
         throw new Exception('Impossible d\'ajouter l\'article !');
-    }
-    else {
+    } else {
         header('Location: index.post.php');
     }
 }

@@ -11,7 +11,7 @@
 <p><a href="../index.post.php">Retour à la liste des billets</a></p>
 <div class="news">
     <h3> <!-- recovery of the datas in the DB  -->
-        <?= htmlspecialchars($post['title']) ?>
+        <strong><div class="titrepost"><?= htmlspecialchars($post['title']) ?></div></strong>
         <em>le <?= $post['creation_date_fr'] ?> par <?= $post['pseudo']  ?></em>
     </h3>
     <?= nl2br(htmlspecialchars($post['chapo'])) ?>
@@ -19,10 +19,9 @@
         <?= nl2br(htmlspecialchars($post['content'])) ?>
     </p>
 </div>
-<h2 style="padding-left: 100px;">Ajouter un commentaire</h2>
- <!-- form to add the comments depending if you are logged or not -->
 <?php if(is_logged_in() ): ?>
-   
+   <h2 style="padding-left: 100px;">Ajouter un commentaire</h2>
+ <!-- form to add the comments depending if you are logged or not -->
 <form action="index.post.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
 	<div style="padding-left:100px;">
     <div style="width: 11%;">

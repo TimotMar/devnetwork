@@ -19,6 +19,9 @@ $facebook,
 $available_for_hiring,
 $bio;
 
+    const NOM_INVALIDE = 1;
+    const PSEUDO_INVALIDE = 2;
+    const EMAIL_INVALIDE = 3;
 
   public function __construct($valeurs = [])
   {
@@ -183,5 +186,4 @@ $bio;
   {
     return $this->bio;
   }
-}
 }
