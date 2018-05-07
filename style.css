@@ -1,0 +1,84 @@
+h1, h3
+{
+    text-align:center;
+    font-family: 'Open Sans', sans-serif; font-size: 34px; font-weight: 300; line-height: 40px; margin: 0 0 16px;
+}
+h3
+{
+    background-color:#99ccff;
+    color:white;
+    margin-bottom:0px;
+    border-radius: 10px;
+    font-family: 'Open Sans', sans-serif; font-size: 20px; font-weight: 300; line-height: 25px; margin: 0 0 14px;
+}
+.news p
+{
+    margin-top:0px;
+     border-radius: 10px;
+     font-family: 'Carme', sans-serif;
+     font-size: 15px;
+     font-weight: 400; line-height: 24px; margin: 0 0 14px; 
+}
+.news
+{
+    width:70%;
+    margin:auto;
+}
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
+.titrepost{
+  color: black;
+}
+
+.champ {
+    width: 50%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #b3d1ff;
+    resize: none;
+    margin:auto;
+     border-radius: 25px;
+}
+
+
+.container {
+  margin: 0 auto;
+  margin-top: 50px;;
+
+  height: auto;
+  background: #F2F2F2;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 2px #fff inset,
+              -1px -1px 2px #fff inset;
+  border-radius: 3px/6px;         
+    
+    
+}
+
+.myButton {
+  background-color:#459ac7;
+  -moz-border-radius:9px;
+  -webkit-border-radius:9px;
+  border-radius:9px;
+  border:1px solid #197dab;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:14px;
+  font-weight:bold;
+  padding:8px 25px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #284166;
+  margin-top: 2px;
+}
+.myButton:hover {
+  background-color:#2a89bd;
+}
+
