@@ -14,7 +14,7 @@ require '/var/www/devnetwork/vendor/autoload.php';
 
 class CommentManager extends Manager
 {
-    
+    //recovering of the comments
     public function getComments($postId)
     {
         $db = $this->dbConnect();
@@ -24,7 +24,7 @@ AS comment_date_fr, publication FROM comments WHERE post_id = ? ORDER BY comment
 
         return $comments;
     }
-
+    //funciton used to post the comment connected to the post
     public function postComment($postId, $author, $comment, $post_mail, $post_pseudo)
     {
         $db = $this->dbConnect();
@@ -45,17 +45,18 @@ AS comment_date_fr, publication FROM comments WHERE post_id = ? ORDER BY comment
             $mail->Subject = 'Validation de commentaire';
             $mail->Body = "Un client a déposé un commentaire sur votre article. Afin de le valider ou le supprimer, veuillez cliquer sur ce lien : <a href='http://devnetwork.tim-dev.fr/index.post.php?action=post&id=$postId'> Lien de validation </a>";
             $mail->send();
-        } catch (Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-        }
+        
         set_flash("Commentaire posté avec succés, veuillez attendre la validation par l'admin", "success");
 //inform user to check mailbox
         $comments = $db->prepare("INSERT INTO comments(post_id, author, comment, comment_date, post_mail, post_pseudo) VALUES(?, ?, ?, NOW(), ?, ?)");
         $affectedLines = $comments->execute(array($postId, $author, $comment, $post_mail, $post_pseudo));
 
         return $affectedLines;
+        } catch (Exception $e) {
+            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+        }
     }
-
+    //function used to delete comments
     public function deleteComment($id)
     {
         $db = $this->dbConnect();
@@ -64,6 +65,7 @@ AS comment_date_fr, publication FROM comments WHERE post_id = ? ORDER BY comment
 
         return $affectedComments;
     }
+    //functions sued in the validation system to activate or not the comment
     public function validateComment($id)
     {
         $db = $this->dbConnect();

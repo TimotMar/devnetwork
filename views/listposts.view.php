@@ -4,7 +4,7 @@
 *Using POO
 *
     -->
-
+<?php include('partials/_header.php'); ?>
 
 
 
@@ -51,13 +51,13 @@ while ($data = $posts->fetch()) {
     <div class="news">
         <h3>
             <strong><div class="titrepost"><a href="../index.post.php?action=post&amp;id=<?= $data['id'] ?>"><?= htmlspecialchars($data['title']) ?></a></div></strong>
-            <em>le <?= $data['creation_date_fr'] ?> par <?= htmlspecialchars($data['pseudo']) ?></em>
+            <div class="titrepost"><em>le <?= $data['creation_date_fr'] ?> par <?= htmlspecialchars($data['pseudo']) ?></em></div>
         </h3>
-        <?= nl2br(htmlspecialchars($data['chapo'])) ?>
+        <u><?= nl2br(htmlspecialchars($data['chapo'])) ?></u>
         <p>
-            <?= nl2br(htmlspecialchars($data['content'])) ?>
+            <?= nl2br($data['content']) ?>
             <br />
-            <em><a href="../index.post.php?action=post&amp;id=<?= $data['id'] ?>">Commentaires</a></em>//
+            <ul><a href="../index.post.php?action=post&amp;id=<?= $data['id'] ?>">Commentaires</a></em>//
             <?php if (is_logged_in()) :?>
                 <?php if ($_SESSION['pseudo'] == $data['pseudo'] || $_SESSION['user_id'] == "4") :?>
             <em><a href="index.post.php?action=modifier&amp;id=<?= $data['id'] ?>">Modifier</a></em>//
@@ -75,3 +75,4 @@ $posts->closeCursor();
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.view.php'); ?>
+<?php include('partials/_footer.php');?>
