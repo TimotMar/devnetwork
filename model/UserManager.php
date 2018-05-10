@@ -1,6 +1,6 @@
 <?php
 /*
-*This file is used for managing of all the functions connected to the DB in the blog post system
+*This file is used for managing of all the functions connected to the DB in the user system
 *Using POO
 *
 **/
@@ -14,7 +14,7 @@ require '/var/www/devnetwork/vendor/autoload.php';
 
 class UserManager extends Manager
 {
-
+    //function used to modify the users datas
     public function modifierUser($id, $name, $city, $country, $sex, $twitter, $github, $facebook, $available_for_hiring, $bio)
     {
         $db = $this->dbConnect();
@@ -23,7 +23,7 @@ class UserManager extends Manager
 
         return $affectedUser;
     }
-
+    //function used to recover datas linked to a special profile
     public function getProfile($id)
     {
         $db = $this->dbConnect();
@@ -33,7 +33,7 @@ class UserManager extends Manager
 
         return $profile;
     }
-
+    //functions used to select all the users from DB
     public function getListe()
     {
         $db = $this->dbConnect();
@@ -41,7 +41,7 @@ class UserManager extends Manager
 
         return $req;
     }
-
+    //function used to save datas of the registration + mailing 
     public function registerUser($name, $pseudo, $email, $password, $password_confirm, $country, $city)
     {
         $db = $this->dbConnect();
@@ -99,14 +99,14 @@ class UserManager extends Manager
             $datauser ->execute(array($name,$pseudo,$email,$password,$country,$city));
             return $datauser;
         }
-    }
-
+    }  
+    //function used to connect the login system to the DB 
     public function loginUser($identifiant, $password)
     {
         $db = $this->dbConnect();
         extract($_POST); //access to all the variables into the post
 
-            $q = $db->prepare("SELECT id, pseudo, email, admin FROM users 
+            $q = $db->prepare("SELECT id, pseudo, email FROM users 
                                         WHERE (pseudo = :identifiant OR email = :identifiant) 
                                         AND password = :password AND active = '1'");
             $q->execute([
@@ -122,7 +122,6 @@ class UserManager extends Manager
                 $_SESSION['user_id'] = $user->id; //storage of the id
                 $_SESSION['pseudo'] = $user->pseudo;
                 $_SESSION['email'] = $user->email;
-                $_SESSION['admin'] = $user->admin;
                 //we keep this as long as the session is active. user connected only if id and pseudo exist.
                 redirect_intent_or('index.php?action=profile&id='.$user->id);
         } else {
@@ -130,7 +129,7 @@ class UserManager extends Manager
                 save_input_data();
         }
     }
-
+    //function used to recover the token from the activation's mail to activate the account
     public function activationUser()
     {
         $db = $this->dbConnect();

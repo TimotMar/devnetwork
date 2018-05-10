@@ -5,25 +5,27 @@
 *
 *
 -->
-
+<?php include('partials/_header.php'); ?>
 <?php ob_start(); ?>
 <h1>Mon super blog !</h1>
+<div style="margin-left:1%;">
 <p><a href="../index.post.php">Retour à la liste des billets</a></p>
+</div>
 <div class="news">
     <h3> <!-- recovery of the datas in the DB  -->
         <strong><div class="titrepost"><?= htmlspecialchars($post['title']) ?></div></strong>
-        <em>le <?= $post['creation_date_fr'] ?> par <?= $post['pseudo']  ?></em>
+        <div class="titrepost"><em>le <?= $post['creation_date_fr'] ?> par <?= $post['pseudo']  ?></em></div>
     </h3>
-    <?= nl2br(htmlspecialchars($post['chapo'])) ?>
+    <u><?= nl2br(htmlspecialchars($post['chapo'])) ?></u>
     <p>
-        <?= nl2br(htmlspecialchars($post['content'])) ?>
+        <?= nl2br($post['content']) ?>
     </p>
 </div>
 <?php if(is_logged_in() ): ?>
-   <h2 style="padding-left: 100px;">Ajouter un commentaire</h2>
+    <div style="margin-left:15%;">
+   <h2>Ajouter un commentaire</h2>
  <!-- form to add the comments depending if you are logged or not -->
 <form action="index.post.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
-	<div style="padding-left:100px;">
     <div style="width: 11%;">
         <label for="author">Auteur</label><br />
         <input class="form-control" type="text" id="author" name="author" value="<?php echo ''. get_session('pseudo'). ''; ?>" readonly/>
@@ -41,8 +43,8 @@
     <div style="width: 10%;">
         <input class="form-control" type="submit" value="Envoyer" name="envoi"/>
             </div>
-        </div>
     </form>
+</div>
 <?php endif; ?>
 
 <?php // recovery of all the comments from the datas from the DB
@@ -76,3 +78,4 @@ if ((is_logged_in()) && ($_SESSION['pseudo'] == $post['pseudo']) || ($_SESSION['
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.view.php'); ?>
+<?php include('partials/_footer.php');?>

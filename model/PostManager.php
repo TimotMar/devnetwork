@@ -11,6 +11,7 @@ require_once("Manager.php");
 
 class PostManager extends Manager
 {
+    //function used to recover all the posts in one page
     public function getPosts()
     {
         $db = $this->dbConnect();
@@ -19,7 +20,7 @@ AS creation_date_fr, pseudo, chapo FROM posts ORDER BY creation_date DESC LIMIT 
 
         return $req;
     }
-
+    //function used to recover a single post with his datas
     public function getPost($postId)
     {
         $db = $this->dbConnect();
@@ -30,7 +31,7 @@ AS creation_date_fr, pseudo, chapo, post_mail FROM posts WHERE id = ?');
 
         return $post;
     }
-
+    //function used to send all the post datas and save them in the DB
     public function postPost($title, $content, $chapo, $pseudo, $post_mail)
     {
         $db = $this->dbConnect();
@@ -39,7 +40,7 @@ AS creation_date_fr, pseudo, chapo, post_mail FROM posts WHERE id = ?');
 
         return $affectedPosts;
     }
-
+    //function used to modify a post 
     public function modifierPost($id, $title, $content, $chapo, $pseudo)
     {
         $db = $this->dbConnect();
@@ -48,7 +49,7 @@ AS creation_date_fr, pseudo, chapo, post_mail FROM posts WHERE id = ?');
 
         return $affectedPosts;
     }
-
+    //function used to delete a post 
     public function deletePost($id)
     {
         $db = $this->dbConnect();

@@ -11,7 +11,7 @@
             <h1 class="lead"> Connexion</h1>
 
             <?php
-            include('partials/_errors.php')
+            include('partials/_errors.php');
             ?>
             <form data-parsley-validate action="../index.php?action=logintheUser" method="post" class="well col-md-6">
                 <!-- identifiant field -->

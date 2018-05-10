@@ -1,13 +1,12 @@
 <?php
 /*
 *This file is the index of the website
-*
+*It is used to user every functions linked to the website
 *
 **/
 session_start();
 include('controller/includes/constants.php');
-require("controller/includes/functions.php");
-
+require("controller/backend.php");
 require('controller/frontend.php');
 
 try {
